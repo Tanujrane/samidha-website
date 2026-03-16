@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}Samidha Masale | All Products{% endblock %}
+{% block page_title_en %}Samidha Masale | All Products{% endblock %}
+{% block page_title_mr %}समिधा मसाले | सर्व उत्पादने{% endblock %}
+
+{% block content %}
+<main>
+    <section class="page-hero category-hero scroll-reveal">
+        <div class="section-divider spice-divider" aria-hidden="true"></div>
+        <div class="section-heading center-heading">
+            <p class="section-tag" data-en="Full Collection" data-mr="संपूर्ण संग्रह">Full Collection</p>
+            <h1 class="page-title" data-en="All Homemade Products" data-mr="सर्व घरगुती उत्पादने">All Homemade Products</h1>
+            <p class="page-text" data-en="Explore spices, festive sweets, and pantry favorites together in one warm storefront." data-mr="एकाच उबदार स्टोअरफ्रंटमध्ये मसाले, सणासुदीची मिठाई आणि घरगुती आवडीचे पदार्थ पाहा.">Explore spices, festive sweets, and pantry favorites together in one warm storefront.</p>
+        </div>
+    </section>
+
+    <section class="product-showcase scroll-reveal">
+        <div class="section-heading">
+            <p class="section-tag" data-en="Shop Everything" data-mr="सगळेच खरेदी करा">Shop Everything</p>
+            <h2 data-en="Traditional Flavors in One Place" data-mr="पारंपरिक चवी एकाच ठिकाणी">Traditional Flavors in One Place</h2>
+            <p data-en="Click any product card to see ingredients and details, or add it directly to your cart." data-mr="साहित्य आणि तपशील पाहण्यासाठी कोणत्याही उत्पादनावर क्लिक करा किंवा थेट कार्टमध्ये जोडा.">Click any product card to see ingredients and details, or add it directly to your cart.</p>
+        </div>
+        <div class="card-grid">
+            {% set products = all_products %}
+            {% include "_product_cards.html" %}
+        </div>
+    </section>
+</main>
+{% endblock %}

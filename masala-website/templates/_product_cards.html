@@ -1,0 +1,46 @@
+{% for product in products %}
+<article
+    class="product-card scroll-reveal"
+    data-product-id="{{ product.id }}"
+    data-product-name="{{ product.name }}"
+    data-product-name-mr="{{ product.name_mr }}"
+    data-product-description="{{ product.description }}"
+    data-product-description-mr="{{ product.description_mr }}"
+    data-product-ingredients="{{ product.ingredients }}"
+    data-product-ingredients-mr="{{ product.ingredients_mr }}"
+    data-product-price="{{ product.price }}"
+    data-product-image="{{ product.image_class }}"
+    data-product-image-url="{{ product.image if product.image is defined else '' }}"
+    data-product-category="{{ product.category_title if product.category_title is defined else category.title }}"
+    data-product-category-mr="{{ product.category_title_mr if product.category_title_mr is defined else category.title_mr }}"
+>
+    <button class="product-card-trigger" type="button" data-product-open aria-label="Open details for {{ product.name }}">
+        <div class="card-image {% if product.image_class %}{{ product.image_class }}{% endif %}" {% if product.image is defined and product.image %}style="background-image: linear-gradient(rgba(78, 52, 46, 0.12), rgba(78, 52, 46, 0.18)), url('{{ product.image }}');"{% endif %}></div>
+        <div class="card-body">
+            <span class="product-category" data-en="{{ product.category_title if product.category_title is defined else category.title }}" data-mr="{{ product.category_title_mr if product.category_title_mr is defined else category.title_mr }}">{{ product.category_title if product.category_title is defined else category.title }}</span>
+            <h3 data-en="{{ product.name }}" data-mr="{{ product.name_mr }}">{{ product.name }}</h3>
+            <p data-en="{{ product.description }}" data-mr="{{ product.description_mr }}">{{ product.description }}</p>
+        </div>
+    </button>
+    <div class="card-meta">
+        <span class="price">Rs. {{ product.price }}</span>
+        <button
+            class="card-button"
+            type="button"
+            data-add-to-cart
+            data-product-id="{{ product.id }}"
+            data-product-name="{{ product.name }}"
+            data-product-name-mr="{{ product.name_mr }}"
+            data-product-price="{{ product.price }}"
+            data-product-image="{{ product.image_class }}"
+            data-product-image-url="{{ product.image if product.image is defined else '' }}"
+            data-product-category="{{ product.category_title if product.category_title is defined else category.title }}"
+            data-product-category-mr="{{ product.category_title_mr if product.category_title_mr is defined else category.title_mr }}"
+            data-en="Add to Cart"
+            data-mr="कार्टमध्ये जोडा"
+        >
+            Add to Cart
+        </button>
+    </div>
+</article>
+{% endfor %}

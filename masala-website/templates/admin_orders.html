@@ -1,0 +1,93 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Orders and Sales | Samidha Masale{% endblock %}
+{% block admin_heading %}Manage Orders{% endblock %}
+
+{% block admin_content %}
+<section class="admin-products-grid">
+    <article class="panel-card form-panel">
+        <div class="panel-head">
+            <h3>{% if edit_order %}Edit Order{% else %}Add Order{% endif %}</h3>
+            <p>Create, update, and manage order records from the admin side.</p>
+        </div>
+        <form method="post" class="admin-form">
+            <input type="hidden" name="order_id" value="{{ edit_order.id if edit_order else '' }}">
+            <label>
+                <span>Customer Name</span>
+                <input type="text" name="customer_name" value="{{ edit_order.customer_name if edit_order else '' }}" required>
+            </label>
+            <label>
+                <span>Items Purchased</span>
+                <textarea name="items" rows="4" placeholder="Garam Masala x2, Papad x1" required>{{ edit_order.items if edit_order else '' }}</textarea>
+            </label>
+            <label>
+                <span>Total Amount</span>
+                <input type="number" name="total_price" min="0" step="0.01" value="{{ edit_order.total_price if edit_order else '' }}" required>
+            </label>
+            <label>
+                <span>Order Date</span>
+                <input type="date" name="date" value="{{ edit_order.date if edit_order else '' }}" required>
+            </label>
+            <label>
+                <span>Status</span>
+                <select name="status" required>
+                    <option value="">Select status</option>
+                    {% set current_status = edit_order.status if edit_order else '' %}
+                    {% for status in order_statuses %}
+                    <option value="{{ status }}" {% if current_status == status %}selected{% endif %}>{{ status }}</option>
+                    {% endfor %}
+                </select>
+            </label>
+            <div class="form-actions">
+                <button type="submit" class="admin-button primary">{% if edit_order %}Update Order{% else %}Add Order{% endif %}</button>
+                {% if edit_order %}
+                <a href="{{ url_for('admin_orders') }}" class="admin-button secondary">Cancel</a>
+                {% endif %}
+            </div>
+        </form>
+    </article>
+
+    <article class="panel-card">
+        <div class="panel-head">
+            <h3>All Orders</h3>
+            <p>Track customer purchases, update statuses, and manage every order record.</p>
+        </div>
+        <div class="table-wrap">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Customer Name</th>
+                        <th>Items Purchased</th>
+                        <th>Total Amount</th>
+                        <th>Date</th>
+                        <th>Status</th>
+                        <th>Payment</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for order in orders %}
+                    <tr>
+                        <td>#{{ order.id }}</td>
+                        <td>{{ order.customer_name }}</td>
+                        <td>{{ order.items }}</td>
+                        <td>Rs. {{ "%.0f"|format(order.total_price) }}</td>
+                        <td>{{ order.date }}</td>
+                        <td><span class="status-pill">{{ order.status }}</span></td>
+                        <td>{{ order.payment_method }} / {{ order.payment_status }}</td>
+                        <td><a href="{{ url_for('admin_orders', edit=order.id) }}" class="table-link">Edit</a></td>
+                        <td>
+                            <form method="post" action="{{ url_for('delete_admin_order', order_id=order.id) }}" data-confirm-delete>
+                                <button type="submit" class="table-link danger">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </article>
+</section>
+{% endblock %}

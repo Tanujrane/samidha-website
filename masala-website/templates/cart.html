@@ -1,0 +1,84 @@
+{% extends "base.html" %}
+
+{% block title %}Samidha Masale | Cart{% endblock %}
+{% block page_title_en %}Samidha Masale | Cart{% endblock %}
+{% block page_title_mr %}Samidha Masale | Cart{% endblock %}
+
+{% block content %}
+<main>
+    <section class="page-hero category-hero scroll-reveal">
+        <div class="section-divider pantry-divider" aria-hidden="true"></div>
+        <div class="section-heading center-heading">
+            <p class="section-tag" data-en="Cart Overview" data-mr="Cart Overview">Cart Overview</p>
+            <h1 class="page-title" data-en="Your Shopping Cart" data-mr="Your Shopping Cart">Your Shopping Cart</h1>
+            <p class="page-text" data-en="Review your selected items before placing an order." data-mr="Review your selected items before placing an order.">Review your selected items before placing an order.</p>
+        </div>
+    </section>
+
+    <section class="cart-page scroll-reveal">
+        <div class="cart-page-grid">
+            <div class="info-panel">
+                <h2 data-en="Items" data-mr="Items">Items</h2>
+                <div class="cart-items cart-page-items" data-cart-page-items></div>
+            </div>
+            <div class="info-panel cart-page-summary">
+                <h2 data-en="Summary" data-mr="Summary">Summary</h2>
+                <div class="cart-summary-row">
+                    <span data-en="Total Items" data-mr="Total Items">Total Items</span>
+                    <strong data-cart-page-count>0</strong>
+                </div>
+                <div class="cart-summary-row">
+                    <span data-en="Total Price" data-mr="Total Price">Total Price</span>
+                    <strong data-cart-page-total>Rs. 0</strong>
+                </div>
+                <p class="cart-note">Login is mandatory for ordering. Checkout supports Cash on Delivery and Razorpay.</p>
+                {% if current_user %}
+                <form class="checkout-form" data-checkout-form data-place-order-url="{{ url_for('place_order') }}" data-razorpay-order-url="{{ url_for('checkout_razorpay_order') }}" data-razorpay-enabled="{{ 'true' if razorpay_enabled else 'false' }}">
+                    <label>
+                        <span>Full Name</span>
+                        <input type="text" name="customer_name" value="{{ current_user.name }}" required>
+                    </label>
+                    <label>
+                        <span>Phone</span>
+                        <input type="tel" name="phone" value="{{ current_user.phone }}" required>
+                    </label>
+                    <label>
+                        <span>Delivery Address</span>
+                        <textarea name="address" rows="4" required placeholder="House no, area, city, pincode"></textarea>
+                    </label>
+                    <fieldset class="payment-methods">
+                        <legend>Payment Method</legend>
+                        <label class="payment-choice">
+                            <input type="radio" name="payment_method" value="COD" checked>
+                            <span>Cash on Delivery</span>
+                        </label>
+                        <label class="payment-choice">
+                            <input type="radio" name="payment_method" value="Razorpay" {% if not razorpay_enabled %}disabled{% endif %}>
+                            <span>Razorpay</span>
+                        </label>
+                    </fieldset>
+                    {% if not razorpay_enabled %}
+                    <p class="cart-note status-error">Razorpay is unavailable right now. Please restart the app after saving your Razorpay keys in `.env`.</p>
+                    {% endif %}
+                    <button type="submit" class="btn btn-primary" data-place-order-button>Place Order</button>
+                    <p class="cart-note is-hidden" data-checkout-status></p>
+                </form>
+                {% else %}
+                <div class="checkout-login-box">
+                    <p class="cart-note">Please login or create an account before checkout.</p>
+                    <a href="{{ url_for('user_login', next=url_for('cart')) }}" class="btn btn-primary">Login to Order</a>
+                    <a href="{{ url_for('user_register', next=url_for('cart')) }}" class="btn btn-secondary">Create Account</a>
+                </div>
+                {% endif %}
+                <a href="{{ url_for('products') }}" class="btn btn-secondary">Continue Shopping</a>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
+
+{% block extra_scripts %}
+{% if razorpay_enabled and current_user %}
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+{% endif %}
+{% endblock %}

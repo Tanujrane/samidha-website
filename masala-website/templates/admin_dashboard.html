@@ -1,0 +1,108 @@
+{% extends "admin_base.html" %}
+
+{% block title %}Dashboard Overview | Samidha Masale{% endblock %}
+{% block admin_heading %}Dashboard Overview{% endblock %}
+
+{% block head_extra %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block admin_content %}
+<section class="stats-grid">
+    <article class="stat-card">
+        <p>Total Orders</p>
+        <h3 data-metric="total_orders">{{ metrics.total_orders }}</h3>
+    </article>
+    <article class="stat-card">
+        <p>Total Revenue</p>
+        <h3 data-metric="total_revenue">Rs. {{ "%.0f"|format(metrics.total_revenue) }}</h3>
+    </article>
+    <article class="stat-card">
+        <p>Total Products</p>
+        <h3 data-metric="total_products">{{ metrics.total_products }}</h3>
+    </article>
+    <article class="stat-card">
+        <p>Active Orders</p>
+        <h3 data-metric="processing_orders">{{ metrics.processing_orders }}</h3>
+    </article>
+    <article class="stat-card">
+        <p>Today's Sales</p>
+        <h3 data-metric="todays_sales">Rs. {{ "%.0f"|format(metrics.todays_sales) }}</h3>
+    </article>
+</section>
+
+<section class="quick-actions-grid">
+    <a href="{{ url_for('admin_products') }}" class="panel-card quick-action-card">
+        <p class="admin-kicker">Catalog</p>
+        <h3>Add or edit products</h3>
+        <p>Manage product names, pricing, descriptions, and images from one place.</p>
+    </a>
+    <a href="{{ url_for('admin_orders') }}" class="panel-card quick-action-card">
+        <p class="admin-kicker">Orders</p>
+        <h3>Review all customer orders</h3>
+        <p>Update order statuses, add manual orders, or remove old test entries.</p>
+    </a>
+</section>
+
+<section class="chart-grid">
+    <article class="panel-card">
+        <div class="panel-head">
+            <h3>Sales per Day</h3>
+            <p>Last 7 days performance</p>
+        </div>
+        <canvas id="salesChart"></canvas>
+    </article>
+    <article class="panel-card">
+        <div class="panel-head">
+            <h3>Top Selling Products</h3>
+            <p>Based on real order quantities</p>
+        </div>
+        <canvas id="topProductsChart"></canvas>
+    </article>
+</section>
+
+<section class="panel-card" data-recent-orders-section>
+    <div class="panel-head">
+        <h3>Recent Orders</h3>
+        <p>Latest customer activity <span class="live-indicator" data-live-indicator>Live</span></p>
+    </div>
+    <div class="table-wrap {% if not recent_orders %}is-hidden{% endif %}" data-orders-table-wrap>
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Order ID</th>
+                    <th>Customer</th>
+                    <th>Items</th>
+                    <th>Total</th>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody data-recent-orders-body>
+                {% for order in recent_orders %}
+                <tr>
+                    <td>#{{ order.id }}</td>
+                    <td>{{ order.customer_name }}</td>
+                    <td>{{ order.items }}</td>
+                    <td>Rs. {{ "%.0f"|format(order.total_price) }}</td>
+                    <td>{{ order.date }}</td>
+                    <td><span class="status-pill">{{ order.status }}</span></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    <p class="empty-state {% if recent_orders %}is-hidden{% endif %}" data-orders-empty-state>No real orders yet. Dashboard charts will update automatically as soon as orders are added.</p>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    window.adminDashboardData = {
+        endpoint: "{{ url_for('admin_dashboard_data') }}",
+        refreshMs: 15000,
+        metrics: {{ metrics|tojson }},
+        recentOrders: {{ recent_orders_data|tojson }}
+    };
+</script>
+{% endblock %}

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Admin Dashboard{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Hind:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+    {% block head_extra %}{% endblock %}
+</head>
+<body class="admin-body">
+    <div class="admin-layout">
+        <aside class="admin-sidebar">
+            <div class="admin-brand">
+                <p>Samidha Masale</p>
+                <h1>Admin Panel</h1>
+            </div>
+            <nav class="admin-nav">
+                <a href="{{ url_for('admin_dashboard') }}" class="{% if active_admin_page == 'dashboard' %}active{% endif %}">Dashboard Overview</a>
+                <a href="{{ url_for('admin_products') }}" class="{% if active_admin_page == 'products' %}active{% endif %}">Manage Products</a>
+                <a href="{{ url_for('admin_orders') }}" class="{% if active_admin_page == 'orders' %}active{% endif %}">Manage Orders</a>
+                <a href="{{ url_for('admin_logout') }}">Logout</a>
+            </nav>
+        </aside>
+
+        <main class="admin-main">
+            <header class="admin-topbar">
+                <button class="sidebar-toggle" type="button" data-sidebar-toggle>Menu</button>
+                <div>
+                    <p class="admin-kicker">Welcome back</p>
+                    <h2>{% block admin_heading %}Admin Dashboard{% endblock %}</h2>
+                </div>
+            </header>
+
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    <div class="flash-stack">
+                        {% for category, message in messages %}
+                            <div class="flash-message {{ category }}">{{ message }}</div>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+            {% endwith %}
+
+            {% block admin_content %}{% endblock %}
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+    {% block scripts %}{% endblock %}
+</body>
+</html>

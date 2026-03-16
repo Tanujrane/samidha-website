@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Samidha Masale{% endblock %}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Hind:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body data-page-title-en="{% block page_title_en %}Samidha Masale{% endblock %}" data-page-title-mr="{% block page_title_mr %}Samidha Masale{% endblock %}">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <div class="site-flash-stack">
+            {% for category, message in messages %}
+            <div class="flash-message {% if category == 'error' %}flash-error{% else %}flash-success{% endif %}">{{ message }}</div>
+            {% endfor %}
+        </div>
+        {% endif %}
+    {% endwith %}
+
+    <header class="site-header">
+        <nav class="navbar">
+            <a href="{{ url_for('home') }}" class="logo">Samidha Masale</a>
+            <div class="nav-links">
+                <a href="{{ url_for('home') }}" class="{% if current_page == 'home' %}active{% endif %}" data-en="Home" data-mr="Home">Home</a>
+                <a href="{{ url_for('products') }}" class="{% if current_page in ['products', 'spices', 'sweets', 'homemade'] %}active{% endif %}" data-en="Products" data-mr="Products">Products</a>
+                <a href="{{ url_for('home') }}#about" data-en="About" data-mr="About">About</a>
+                <a href="{{ url_for('home') }}#contact" data-en="Contact" data-mr="Contact">Contact</a>
+            </div>
+            <div class="nav-actions">
+                {% if current_user %}
+                <span class="account-chip">Hi, {{ current_user.name }}</span>
+                <a href="{{ url_for('user_logout') }}" class="cart-nav-link">Logout</a>
+                {% else %}
+                <a href="{{ url_for('user_login') }}" class="cart-nav-link {% if current_page == 'auth' %}active{% endif %}">Login</a>
+                {% endif %}
+                <button class="translate-toggle" type="button" data-translate-toggle aria-label="Toggle language">
+                    <span class="translate-toggle-label">
+                        <span class="translate-part active" data-lang-choice="en">EN</span>
+                        <span class="translate-separator">|</span>
+                        <span class="translate-part" data-lang-choice="mr">Marathi</span>
+                    </span>
+                </button>
+                <a href="{{ url_for('cart') }}" class="cart-nav-link {% if current_page == 'cart' %}active{% endif %}" data-en="Cart" data-mr="Cart">Cart</a>
+                <button class="cart-button" type="button" aria-label="Open cart" data-cart-toggle data-aria-en="Open cart" data-aria-mr="Open cart">
+                    <span class="cart-icon" data-en="Bag" data-mr="Bag">Bag</span>
+                    <span class="cart-count" data-cart-count>0</span>
+                </button>
+            </div>
+        </nav>
+
+        <nav class="sub-navbar">
+            <a href="{{ url_for('spices') }}" class="{% if current_page == 'spices' %}active{% endif %}" data-en="Spices" data-mr="Spices">Spices</a>
+            <a href="{{ url_for('diwali_sweets') }}" class="{% if current_page == 'sweets' %}active{% endif %}" data-en="Diwali Sweets" data-mr="Diwali Sweets">Diwali Sweets</a>
+            <a href="{{ url_for('homemade_items') }}" class="{% if current_page == 'homemade' %}active{% endif %}" data-en="Other Homemade Items" data-mr="Other Homemade Items">Other Homemade Items</a>
+        </nav>
+    </header>
+
+    {% block content %}{% endblock %}
+
+    <div class="cart-drawer-backdrop" data-cart-close></div>
+    <aside class="cart-drawer" aria-hidden="true" data-cart-drawer>
+        <div class="cart-drawer-header">
+            <div>
+                <p class="section-tag" data-en="Shopping Cart" data-mr="Shopping Cart">Shopping Cart</p>
+                <h2 data-en="Your Selections" data-mr="Your Selections">Your Selections</h2>
+            </div>
+            <button class="drawer-close" type="button" aria-label="Close cart" data-cart-close data-en="Close" data-mr="Close">Close</button>
+        </div>
+        <div class="cart-items" data-cart-items></div>
+        <div class="cart-summary">
+            <div class="cart-summary-row">
+                <span data-en="Total" data-mr="Total">Total</span>
+                <strong data-cart-total>Rs. 0</strong>
+            </div>
+            <a href="{{ url_for('cart') }}" class="btn btn-primary drawer-link" data-en="View Cart Page" data-mr="View Cart Page">View Cart Page</a>
+        </div>
+    </aside>
+
+    <div class="product-modal-backdrop" data-modal-close></div>
+    <div class="product-modal" aria-hidden="true" data-product-modal>
+        <button class="modal-close" type="button" aria-label="Close product details" data-modal-close data-en="Close" data-mr="Close">Close</button>
+        <div class="modal-media">
+            <div class="modal-image" data-modal-image></div>
+        </div>
+        <div class="modal-content">
+            <span class="product-category" data-modal-category></span>
+            <h2 data-modal-name></h2>
+            <p data-modal-description></p>
+            <div class="modal-detail">
+                <strong data-en="Ingredients" data-mr="Ingredients">Ingredients</strong>
+                <p data-modal-ingredients></p>
+            </div>
+            <div class="modal-footer">
+                <span class="price" data-modal-price></span>
+                <button class="card-button" type="button" data-modal-add data-en="Add to Cart" data-mr="Add to Cart">Add to Cart</button>
+            </div>
+        </div>
+    </div>
+
+    <footer class="site-footer">
+        <div class="footer-grid">
+            <div>
+                <h3>Samidha Masale</h3>
+                <p data-en="Traditional Indian masale, festive sweets, and homemade specialties prepared with warmth." data-mr="Traditional Indian masale, festive sweets, and homemade specialties prepared with warmth.">Traditional Indian masale, festive sweets, and homemade specialties prepared with warmth.</p>
+            </div>
+            <div>
+                <h4 data-en="Quick Links" data-mr="Quick Links">Quick Links</h4>
+                <a href="{{ url_for('home') }}" data-en="Home" data-mr="Home">Home</a>
+                <a href="{{ url_for('products') }}" data-en="All Products" data-mr="All Products">All Products</a>
+                <a href="{{ url_for('spices') }}" data-en="Spices" data-mr="Spices">Spices</a>
+                <a href="{{ url_for('diwali_sweets') }}" data-en="Diwali Sweets" data-mr="Diwali Sweets">Diwali Sweets</a>
+                <a href="{{ url_for('homemade_items') }}" data-en="Homemade Items" data-mr="Homemade Items">Homemade Items</a>
+            </div>
+            <div>
+                <h4 data-en="Contact" data-mr="Contact">Contact</h4>
+                <p>hello@samidhamasale.com</p>
+                <p>+91 98765 43210</p>
+                <p>Pune, Maharashtra</p>
+            </div>
+            <div>
+                <h4 data-en="Follow Us" data-mr="Follow Us">Follow Us</h4>
+                <div class="social-links">
+                    <a href="#" aria-label="Instagram">IG</a>
+                    <a href="#" aria-label="Facebook">FB</a>
+                    <a href="#" aria-label="WhatsApp">WA</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p data-en="Copyright 2026 Samidha Masale. All rights reserved." data-mr="Copyright 2026 Samidha Masale. All rights reserved.">Copyright 2026 Samidha Masale. All rights reserved.</p>
+        </div>
+    </footer>
+
+    {% block extra_scripts %}{% endblock %}
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+</body>
+</html>

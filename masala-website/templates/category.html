@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Samidha Masale | {{ category.title }}{% endblock %}
+{% block page_title_en %}Samidha Masale | {{ category.title }}{% endblock %}
+{% block page_title_mr %}समिधा मसाले | {{ category.title_mr }}{% endblock %}
+
+{% block content %}
+<main>
+    <section class="page-hero category-hero scroll-reveal">
+        <div class="section-divider {{ category.divider_class }}" aria-hidden="true"></div>
+        <div class="section-heading center-heading">
+            <p class="section-tag" data-en="{{ category.tag }}" data-mr="{{ category.tag_mr }}">{{ category.tag }}</p>
+            <h1 class="page-title" data-en="{{ category.hero_title }}" data-mr="{{ category.hero_title_mr }}">{{ category.hero_title }}</h1>
+            <p class="page-text" data-en="{{ category.hero_text }}" data-mr="{{ category.hero_text_mr }}">{{ category.hero_text }}</p>
+        </div>
+    </section>
+
+    <section class="product-showcase scroll-reveal">
+        <div class="section-heading">
+            <p class="section-tag" data-en="{{ category.tag }}" data-mr="{{ category.tag_mr }}">{{ category.tag }}</p>
+            <h2 data-en="{{ category.title }}" data-mr="{{ category.title_mr }}">{{ category.title }}</h2>
+            <p data-en="{{ category.description }}" data-mr="{{ category.description_mr }}">{{ category.description }}</p>
+        </div>
+        <div class="card-grid">
+            {% set products = category_products %}
+            {% include "_product_cards.html" %}
+        </div>
+    </section>
+
+    <section class="category-cta scroll-reveal">
+        <div class="section-divider {{ category.divider_class }}" aria-hidden="true"></div>
+        <div class="info-panel center-heading">
+            <p class="section-tag" data-en="More to Explore" data-mr="आणखी पहा">More to Explore</p>
+            <h2 data-en="Discover More Homemade Flavors" data-mr="आणखी घरगुती चवी शोधा">Discover More Homemade Flavors</h2>
+            <p data-en="Visit our other category pages to browse festive sweets, spices, and pantry favorites separately." data-mr="सणासुदीची मिठाई, मसाले आणि घरगुती आवडीचे पदार्थ स्वतंत्रपणे पाहण्यासाठी इतर विभागांची पृष्ठे पहा.">Visit our other category pages to browse festive sweets, spices, and pantry favorites separately.</p>
+            <div class="hero-actions">
+                <a href="{{ url_for('spices') }}" class="btn btn-primary" data-en="Spices" data-mr="मसाले">Spices</a>
+                <a href="{{ url_for('diwali_sweets') }}" class="btn btn-secondary" data-en="Diwali Sweets" data-mr="दिवाळी मिठाई">Diwali Sweets</a>
+                <a href="{{ url_for('homemade_items') }}" class="btn btn-primary" data-en="Homemade Items" data-mr="घरगुती पदार्थ">Homemade Items</a>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}

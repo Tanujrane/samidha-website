@@ -1,0 +1,80 @@
+{% extends "base.html" %}
+
+{% block title %}Samidha Masale | Homemade Goodness{% endblock %}
+{% block page_title_en %}Samidha Masale | Homemade Goodness{% endblock %}
+{% block page_title_mr %}समिधा मसाले | घरगुती चव{% endblock %}
+
+{% block content %}
+<main>
+    <section class="hero" id="home">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <p class="hero-kicker" data-en="Freshly Ground Traditions" data-mr="ताज्या दळलेल्या परंपरा">Freshly Ground Traditions</p>
+            <h1 data-en="Authentic Homemade Masale" data-mr="अस्सल घरगुती मसाले">Authentic Homemade Masale</h1>
+            <p class="hero-text" data-en="Traditional flavors made with love" data-mr="प्रेमाने तयार केलेली पारंपरिक चव">Traditional flavors made with love</p>
+            <div class="hero-actions">
+                <a href="{{ url_for('products') }}" class="btn btn-primary" data-en="View Products" data-mr="उत्पादने पहा">View Products</a>
+                <a href="{{ url_for('cart') }}" class="btn btn-secondary" data-en="Open Cart" data-mr="कार्ट उघडा">Open Cart</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="intro-strip scroll-reveal">
+        <div class="intro-card">
+            <span data-en="Handcrafted recipes" data-mr="हस्तनिर्मित पाककृती">Handcrafted recipes</span>
+            <span data-en="Festive sweets" data-mr="सणासुदीची मिठाई">Festive sweets</span>
+            <span data-en="Homemade comfort items" data-mr="घरगुती आरामदायी पदार्थ">Homemade comfort items</span>
+        </div>
+    </section>
+
+    <section class="category-links scroll-reveal">
+        <div class="section-divider spice-divider" aria-hidden="true"></div>
+        <div class="section-heading center-heading">
+            <p class="section-tag" data-en="Explore Categories" data-mr="विभाग पहा">Explore Categories</p>
+            <h2 data-en="Separate Pages for Every Product Type" data-mr="प्रत्येक उत्पादन प्रकारासाठी स्वतंत्र पृष्ठे">Separate Pages for Every Product Type</h2>
+            <p data-en="Browse each collection on its own dedicated page for a cleaner shopping experience." data-mr="स्वच्छ आणि सोप्या खरेदी अनुभवासाठी प्रत्येक संग्रह स्वतंत्र पृष्ठावर पाहा.">Browse each collection on its own dedicated page for a cleaner shopping experience.</p>
+        </div>
+        <div class="category-grid">
+            <a href="{{ url_for('spices') }}" class="category-card">
+                <div class="card-image spice-one"></div>
+                <div class="card-body">
+                    <span class="product-category" data-en="Spices" data-mr="मसाले">Spices</span>
+                    <h3 data-en="Freshly Ground Masale" data-mr="ताजे दळलेले मसाले">Freshly Ground Masale</h3>
+                    <p data-en="Essential spice blends for curries, sabzis, rice dishes, and daily cooking." data-mr="करी, भाजी, भाताचे पदार्थ आणि रोजच्या स्वयंपाकासाठी आवश्यक मसाला मिश्रणे.">Essential spice blends for curries, sabzis, rice dishes, and daily cooking.</p>
+                </div>
+            </a>
+            <a href="{{ url_for('diwali_sweets') }}" class="category-card">
+                <div class="card-image sweet-one"></div>
+                <div class="card-body">
+                    <span class="product-category" data-en="Diwali Sweets" data-mr="दिवाळी मिठाई">Diwali Sweets</span>
+                    <h3 data-en="Festive Homemade Mithai" data-mr="सणासुदीची घरगुती मिठाई">Festive Homemade Mithai</h3>
+                    <p data-en="Traditional sweets prepared for celebrations, gifting, and family gatherings." data-mr="सण, भेटवस्तू आणि कौटुंबिक समारंभांसाठी तयार केलेली पारंपरिक मिठाई.">Traditional sweets prepared for celebrations, gifting, and family gatherings.</p>
+                </div>
+            </a>
+            <a href="{{ url_for('homemade_items') }}" class="category-card">
+                <div class="card-image homemade-one"></div>
+                <div class="card-body">
+                    <span class="product-category" data-en="Homemade Items" data-mr="घरगुती पदार्थ">Homemade Items</span>
+                    <h3 data-en="Pantry Comfort Favourites" data-mr="घरगुती साठ्यातील आवडीचे पदार्थ">Pantry Comfort Favourites</h3>
+                    <p data-en="Pickles, papad, and everyday homemade companions rooted in family recipes." data-mr="कौटुंबिक रेसिपींवर आधारित लोणची, पापड आणि रोजचे घरगुती साथीदार.">Pickles, papad, and everyday homemade companions rooted in family recipes.</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <section class="about-contact scroll-reveal">
+        <div class="section-divider pantry-divider" aria-hidden="true"></div>
+        <div class="info-panel" id="about">
+            <p class="section-tag" data-en="Our Story" data-mr="आमची कहाणी">Our Story</p>
+            <h2 data-en="Made in Small Batches" data-mr="लहान बॅचमध्ये तयार केलेले">Made in Small Batches</h2>
+            <p data-en="Samidha Masale celebrates authentic homemade recipes, family traditions, and ingredients chosen with care." data-mr="समिधा मसाले अस्सल घरगुती पाककृती, कौटुंबिक परंपरा आणि काळजीपूर्वक निवडलेले साहित्य यांचा सन्मान करतात.">Samidha Masale celebrates authentic homemade recipes, family traditions, and ingredients chosen with care.</p>
+        </div>
+        <div class="info-panel" id="contact">
+            <p class="section-tag" data-en="Get In Touch" data-mr="संपर्क करा">Get In Touch</p>
+            <h2 data-en="Order Fresh and Festive" data-mr="ताजे आणि सणासुदीचे ऑर्डर करा">Order Fresh and Festive</h2>
+            <p data-en="Reach out to place orders for spices, sweets, and homemade specialties." data-mr="मसाले, मिठाई आणि घरगुती खास पदार्थांच्या ऑर्डरसाठी संपर्क करा.">Reach out to place orders for spices, sweets, and homemade specialties.</p>
+            <a href="mailto:hello@samidhamasale.com" class="text-link">hello@samidhamasale.com</a>
+        </div>
+    </section>
+</main>
+{% endblock %}

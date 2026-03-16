@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Samidha Masale | {% if auth_mode == "register" %}Register{% else %}Login{% endif %}{% endblock %}
+{% block page_title_en %}Samidha Masale | {% if auth_mode == "register" %}Register{% else %}Login{% endif %}{% endblock %}
+{% block page_title_mr %}Samidha Masale | {% if auth_mode == "register" %}Register{% else %}Login{% endif %}{% endblock %}
+
+{% block content %}
+<main>
+    <section class="page-hero category-hero scroll-reveal">
+        <div class="section-divider spice-divider" aria-hidden="true"></div>
+        <div class="section-heading center-heading">
+            <p class="section-tag">{% if auth_mode == "register" %}Create Account{% else %}Login{% endif %}</p>
+            <h1 class="page-title">{% if auth_mode == "register" %}Create your customer account{% else %}Login to continue checkout{% endif %}</h1>
+            <p class="page-text">User login is mandatory before ordering.</p>
+        </div>
+    </section>
+
+    <section class="cart-page scroll-reveal">
+        <div class="auth-card info-panel">
+            {% if error %}
+            <div class="flash-message flash-error">{{ error }}</div>
+            {% endif %}
+            <form method="post" class="checkout-form">
+                {% if auth_mode == "register" %}
+                <label>
+                    <span>Full Name</span>
+                    <input type="text" name="name" required>
+                </label>
+                <label>
+                    <span>Phone</span>
+                    <input type="tel" name="phone" required>
+                </label>
+                {% endif %}
+                <label>
+                    <span>Email</span>
+                    <input type="email" name="email" required>
+                </label>
+                <label>
+                    <span>Password</span>
+                    <input type="password" name="password" required>
+                </label>
+                <button type="submit" class="btn btn-primary">{% if auth_mode == "register" %}Create Account{% else %}Login{% endif %}</button>
+            </form>
+
+            <p class="auth-switch">
+                {% if auth_mode == "register" %}
+                Already have an account? <a href="{{ url_for('user_login', next=request.args.get('next', '')) }}">Login here</a>
+                {% else %}
+                New customer? <a href="{{ url_for('user_register', next=request.args.get('next', '')) }}">Create an account</a>
+                {% endif %}
+            </p>
+        </div>
+    </section>
+</main>
+{% endblock %}

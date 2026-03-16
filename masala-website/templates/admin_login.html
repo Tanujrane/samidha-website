@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Login | Samidha Masale</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Hind:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/admin.css') }}">
+</head>
+<body class="admin-login-body">
+    <section class="admin-login-card">
+        <p class="admin-kicker">Protected Area</p>
+        <h1>Admin Login</h1>
+        <p class="admin-login-note">Use the dedicated <strong>/admin/login</strong> route to open the admin side and access full controls.</p>
+
+        {% if error %}
+            <div class="flash-message error">{{ error }}</div>
+        {% endif %}
+
+        <form method="post" class="admin-form login-form">
+            <label>
+                <span>Username</span>
+                <input type="text" name="username" placeholder="tanuj123" required>
+            </label>
+            <label>
+                <span>Password</span>
+                <input type="password" name="password" placeholder="12345" required>
+            </label>
+            <button type="submit" class="admin-button primary">Login</button>
+        </form>
+
+        <div class="login-hint">
+            <p><strong>Admin route:</strong> /admin/login</p>
+            <p><strong>Username:</strong> tanuj123</p>
+            <p><strong>Password:</strong> 12345</p>
+        </div>
+    </section>
+</body>
+</html>
